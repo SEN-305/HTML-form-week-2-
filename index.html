@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile | Bio-data Registration</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f3eb;
+            color: #24352e;
+            padding: 35px 20px;
+        }
+
+        .page {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        .top-label {
+            color: #577565;
+            font-size: 12px;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        header h1 {
+            font-size: clamp(30px, 5vw, 48px);
+            margin-bottom: 12px;
+            letter-spacing: -1.5px;
+        }
+
+        header p {
+            color: #68766d;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .form-card,
+        .preview-card {
+            background: #fffefa;
+            border: 1px solid #e4e6dc;
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 23px;
+        }
+
+        .section-number {
+            background: #e4eee5;
+            color: #205b48;
+            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .section-heading h2 {
+            font-size: 17px;
+        }
+
+        .section-heading p {
+            font-size: 12px;
+            color: #879087;
+            margin-top: 5px;
+        }
+
+        .fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label,
+        .field-label {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce1d8;
+            border-radius: 8px;
+            background: #fff;
+            color: #24352e;
+            font: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #35775e;
+            box-shadow: 0 0 0 3px #35775e18;
+        }
+
+        input[readonly] {
+            background: #f0f1eb;
+            color: #68766d;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.6;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            padding: 8px 0;
+        }
+
+        .gender-options label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .gender-options input {
+            width: auto;
+            accent-color: #205b48;
+        }
+
+        .helper {
+            font-size: 11px;
+            color: #879087;
+            text-align: right;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e8e9e1;
+            margin: 28px 0;
+        }
+
+        .submit-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #205b48;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .submit-button:hover {
+            background: #164333;
+            transform: translateY(-1px);
+        }
+
+        .preview-card {
+            background: #e6ede3;
+            position: sticky;
+            top: 20px;
+        }
+
+        .preview-label {
+            color: #64786a;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #d5b9a0;
+            border: 4px solid #f8f7ef;
+            margin-bottom: 18px;
+        }
+
+        .avatar img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-card h2 {
+            font-size: 24px;
+            overflow-wrap: anywhere;
+            margin-bottom: 8px;
+        }
+
+        .preview-subtitle {
+            color: #64786a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .preview-details {
+            margin-top: 25px;
+            border-top: 1px solid #cbd8ca;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #cbd8ca;
+            font-size: 12px;
+        }
+
+        .detail-row span:first-child {
+            color: #64786a;
+        }
+
+        .detail-row span:last-child {
+            text-align: right;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .preview-bio {
+            margin-top: 23px;
+            font-size: 13px;
+            color: #526458;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .preview-status {
+            margin-top: 22px;
+            background: #f7f8f2;
+            border-radius: 9px;
+            padding: 13px;
+            font-size: 12px;
+            color: #205b48;
+            line-height: 1.6;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #e4eee5;
+            color: #205b48;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #879087;
+            text-align: center;
+        }
+
+        @media (max-width: 750px) {
+            body {
+                padding: 25px 14px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                position: static;
+                grid-row: 1;
+            }
+
+            .form-card,
+            .preview-card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .fields {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <header>
+            <h1>Student Bio-Data Form</h1>
+            <p>
+                Complete your bio-data to create your student profile.
+                Please ensure that the information you provide is accurate.
+            </p>
+        </header>
+
+        <div class="layout">
+            <form class="form-card" id="bioForm">
+                <section>
+                    <div class="section-heading">
+                        <div class="section-number">01</div>
+                        <div>
+                            <h2>Personal details</h2>
+                            <p>Let's start with the basics.</p>
+                        </div>
+                    </div>
+
+                    <div class="fields">
+                        <div class="field full-width">
+                            <label for="fullName">Full name *</label>
+                            <input type="text" id="fullName"
+                                placeholder="Enter your full name"
+                                required minlength="2">
+                        </div>
+
+                        <div class="field">
+                            <label for="studentId">Student ID *</label>
+                            <input type="text" id="studentId"
+                                placeholder="e.g. VUG/SEN/24/12356" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="dob">Date of birth *</label>
+                            <input type="date" id="dob" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="age">Age</label>
+                            <input type="number" id="age"
+                                placeholder="Calculated automatically" readonly>
+                        </div>
+
+                        <div class="field">
+                            <label for="email">Email address *</label>
+                            <input type="email" id="email"
+                                placeholder="you@example.com" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="department">Department *</label>
+                            <select id="department" required>
+                                <option value="">Select department</option>
+                                <option>Software Engineering</option>
+                                <option>Computer Science</option>
+                                <option>Cyber Security</option>
+                                <option>Information Technology</option>
+                                <option>Electrical Engineering</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="level">Academic level *</label>
+                            <select id="level" required>
+                                <option value="">Select level</option>
+                                <option>100 Level</option>
+                                <option>200 Level</option>
+                                <option>300 Level</option>
+                                <option>400 Level</option>
+                                <option>500 Level</option>
+                            </select>
+                        </div>
+
+                        <div class="field full-width">
+                            <span class="field-label">Gender *</span>
+                            <div class="gender-options">
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Female" required>
+                                    Female
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Male">
+                                    Male
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Prefer not to say">
+                                    Prefer not to say
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="divider"></div>
+
+                <section>
+                    <div class="section-heading">
+                        <div class="section-number">02</div>
+                        <div>
+                            <h2>A little about you</h2>
+                            <p>Tell us something about yourself.</p>
+                        </div>
+                    </div>
+
+                    <div class="fields">
+                        <div class="field full-width">
+                            <label for="hometown">State of origin</label>
+                            <input type="text" id="hometown"
+                                placeholder="e.g. Enugu State">
+                        </div>
+
+                        <div class="field full-width">
+                            <label for="bio">Short biography *</label>
+                            <textarea id="bio" maxlength="250" required
+                                placeholder="Your interests, goals, hobbies or a little introduction..."></textarea>
+                            <div class="helper">
+                                <span id="charCount">0</span>/250 characters
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" class="submit-button">
+                    Create student profile ↗
+                </button>
+
+                <div class="message" id="successMessage"
+                    role="status" aria-live="polite"></div>
+            </form>
+
+            <aside class="preview-card">
+                <div class="preview-label">YOUR PROFILE PREVIEW</div>
+
+                <div class="avatar">
+                    <img src="./assets/pfp1.jpeg"
+                        alt="Student profile picture">
+                </div>
+
+                <h2 id="previewName">Your name goes here</h2>
+                <p class="preview-subtitle" id="previewDepartment">
+                    Department will appear here
+                </p>
+
+                <div class="preview-details">
+                    <div class="detail-row">
+                        <span>Student ID</span>
+                        <span id="previewId">Not provided</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Academic level</span>
+                        <span id="previewLevel">Not selected</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Age</span>
+                        <span id="previewAge">—</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Gender</span>
+                        <span id="previewGender">Not selected</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>State of origin</span>
+                        <span id="previewHometown">Not provided</span>
+                    </div>
+                </div>
+
+                <p class="preview-bio" id="previewBio">
+                    Your biography will appear here as you type.
+                </p>
+            </aside>
+        </div>
+
+        <footer>
+            SEN 305
+        </footer>
+    </main>
+
+    <script>
+        const fullName = document.getElementById("fullName");
+        const studentId = document.getElementById("studentId");
+        const dob = document.getElementById("dob");
+        const age = document.getElementById("age");
+        const email = document.getElementById("email");
+        const department = document.getElementById("department");
+        const level = document.getElementById("level");
+        const hometown = document.getElementById("hometown");
+        const bio = document.getElementById("bio");
+        const bioForm = document.getElementById("bioForm");
+
+        const today = new Date();
+
+        dob.max = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, "0"),
+            String(today.getDate()).padStart(2, "0")
+        ].join("-");
+
+        function calculateAge() {
+            if (!dob.value) {
+                age.value = "";
+                return;
+            }
+
+            const birthDate = new Date(dob.value + "T00:00:00");
+            const currentDate = new Date();
+
+            let years =
+                currentDate.getFullYear() - birthDate.getFullYear();
+
+            const birthdayHasPassed =
+                currentDate.getMonth() > birthDate.getMonth() ||
+                (currentDate.getMonth() === birthDate.getMonth() &&
+                currentDate.getDate() >= birthDate.getDate());
+
+            if (!birthdayHasPassed) {
+                years--;
+            }
+
+            age.value = years;
+            document.getElementById("previewAge").textContent = years;
+        }
+
+        function updatePreview() {
+            const name = fullName.value.trim();
+
+            document.getElementById("previewName").textContent =
+                name || "Your name goes here";
+
+            document.getElementById("previewId").textContent =
+                studentId.value.trim() || "Not provided";
+
+            document.getElementById("previewDepartment").textContent =
+                department.value || "Department will appear here";
+
+            document.getElementById("previewLevel").textContent =
+                level.value || "Not selected";
+
+            document.getElementById("previewHometown").textContent =
+                hometown.value.trim() || "Not provided";
+
+            document.getElementById("previewBio").textContent =
+                bio.value.trim() ||
+                "Your biography will appear here as you type.";
+
+            document.getElementById("charCount").textContent =
+                bio.value.length;
+
+            const selectedGender = document.querySelector(
+                'input[name="gender"]:checked'
+            );
+
+            document.getElementById("previewGender").textContent =
+                selectedGender ? selectedGender.value : "Not selected";
+
+            const filledFields = [
+                fullName.value.trim(),
+                studentId.value.trim(),
+                dob.value,
+                email.value.trim(),
+                department.value,
+                level.value,
+                selectedGender ? selectedGender.value : "",
+                bio.value.trim()
+            ].filter(Boolean).length;
+
+            document.getElementById("profileStatus").textContent =
+                filledFields === 8
+                    ? "✦ All required fields are filled in."
+                    : "✦ " + filledFields +
+                      " of 8 required fields completed.";
+        }
+
+        dob.addEventListener("change", function() {
+            calculateAge();
+            updatePreview();
+        });
+
+        [
+            fullName,
+            studentId,
+            email,
+            department,
+            level,
+            hometown,
+            bio
+        ].forEach(function(field) {
+            field.addEventListener("input", updatePreview);
+            field.addEventListener("change", updatePreview);
+        });
+
+        document.querySelectorAll('input[name="gender"]').forEach(
+            function(radio) {
+                radio.addEventListener("change", updatePreview);
+            }
+        );
+
+        bioForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            if (!bioForm.checkValidity()) {
+                bioForm.reportValidity();
+                return;
+            }
+
+            calculateAge();
+            updatePreview();
+
+            const successMessage =
+                document.getElementById("successMessage");
+
+            successMessage.style.display = "block";
+            successMessage.textContent =
+                "Profile completed successfully for " +
+                fullName.value.trim() +
+                "! Your details have been validated in this demo.";
+
+            document.getElementById("profileStatus").textContent =
+                "✓ Profile form completed.";
+        });
+
+        updatePreview();
+    </script>
+</body>
+</html>
