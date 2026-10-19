@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bio Data Form</title>
+    <link rel="stylesheet" href="/asset/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Student Bio Data</h1>
+            <p>Please fill in your details. Fields marked <span style="color:#d64545">*</span> are required.</p>
+        </div>
+
+        <form id="bioForm" novalidate>
+            <p class="section-title">Personal details</p>
+
+            <div class="row">
+                <div class="field">
+                    <label for="firstName">First name <span>*</span></label>
+                    <input type="text" id="firstName">
+                    <p class="error" id="firstNameError"></p>
+                </div>
+                <div class="field">
+                    <label for="lastName">Last name <span>*</span></label>
+                    <input type="text" id="lastName">
+                    <p class="error" id="lastNameError"></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label for="dob">Date of birth <span>*</span></label>
+                    <input type="date" id="dob">
+                    <p class="error" id="dobError"></p>
+                </div>
+                <div class="field">
+                    <label for="gender">Gender <span>*</span></label>
+                    <select id="gender">
+                        <option value="">Select gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                    <p class="error" id="genderError"></p>
+                </div>
+            </div>
+
+            <p class="section-title">School details</p>
+
+            <div class="row">
+                <div class="field">
+                    <label for="studentId">Student ID <span>*</span></label>
+                    <input type="text" id="studentId" placeholder="e.g. CSC/2023/001">
+                    <p class="error" id="studentIdError"></p>
+                </div>
+                <div class="field">
+                    <label for="level">Level <span>*</span></label>
+                    <select id="level">
+                        <option value="">Select level</option>
+                        <option>100 Level</option>
+                        <option>200 Level</option>
+                        <option>300 Level</option>
+                        <option>400 Level</option>
+                        <option>500 Level</option>
+                    </select>
+                    <p class="error" id="levelError"></p>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="department">Department <span>*</span></label>
+                <input type="text" id="department" placeholder="e.g. Computer Science">
+                <p class="error" id="departmentError"></p>
+            </div>
+
+            <p class="section-title">Contact details</p>
+
+            <div class="row">it 
+                <div class="field">
+                    <label for="email">Email <span>*</span></label>
+                    <input type="email" id="email" placeholder="you@example.com">
+                    <p class="error" id="emailError"></p>
+                </div>
+                <div class="field">
+                    <label for="phone">Phone number <span>*</span></label>
+                    <input type="tel" id="phone" placeholder="08012345678">
+                    <p class="error" id="phoneError"></p>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="address">Home address <span>*</span></label>
+                <textarea id="address"></textarea>
+                <p class="error" id="addressError"></p>
+            </div>
+
+            <button type="submit">Submit</button>
+            <p class="success" id="success">Form submitted successfully!</p>
+        </form>
+    </div>
+
+    <script>
+        var form = document.getElementById('bioForm');
+
+       
+        function value(id) {
+            return document.getElementById(id).value.trim();
+        }
+
+       
+        function show(id, message) {
+            document.getElementById(id + 'Error').textContent = message;
+            if (message === '') {
+                document.getElementById(id).classList.remove('invalid');
+            } else {
+                document.getElementById(id).classList.add('invalid');
+            }
+            return message === '';
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('success').style.display = 'none';
+
+            var firstBad = '';   m
+            function check(id, message) {
+                if (!show(id, message) && firstBad === '') firstBad = id;
+            }
+
+            var msg;
+
+            msg = '';
+            if (value('firstName') === '') msg = 'Please enter your first name.';
+            else if (/\d/.test(value('firstName'))) msg = 'Name cannot contain numbers.';
+            check('firstName', msg);
+
+            msg = '';
+            if (value('lastName') === '') msg = 'Please enter your last name.';
+            else if (/\d/.test(value('lastName'))) msg = 'Name cannot contain numbers.';
+            check('lastName', msg);
+
+            msg = '';
+            if (value('dob') === '') msg = 'Please select your date of birth.';
+            else if (new Date(value('dob')) > new Date()) msg = 'Date of birth cannot be in the future.';
+            check('dob', msg);
+
+            check('gender', value('gender') === '' ? 'Please select your gender.' : '');
+
+            msg = '';
+            if (value('studentId') === '') msg = 'Please enter your student ID.';
+            else if (value('studentId').length < 4) msg = 'Student ID is too short.';
+            check('studentId', msg);
+
+            check('level', value('level') === '' ? 'Please select your level.' : '');
+            check('department', value('department') === '' ? 'Please enter your department.' : '');
+
+            msg = '';
+            if (value('email') === '') msg = 'Please enter your email.';
+            else if (!/^\S+@\S+\.\S+$/.test(value('email'))) msg = 'Enter a valid email, like you@example.com.';
+            check('email', msg);
+
+            msg = '';
+            if (value('phone') === '') msg = 'Please enter your phone number.';
+            else if (!/^\d{10,15}$/.test(value('phone').replace(/\s/g, ''))) msg = 'Phone must be 10 to 15 digits.';
+            check('phone', msg);
+
+            msg = '';
+            if (value('address') === '') msg = 'Please enter your address.';
+            else if (value('address').length < 10) msg = 'Please enter a fuller address.';
+            check('address', msg);
+
+            if (firstBad !== '') {
+                document.getElementById(firstBad).focus();   // jump to the first problem
+            } else {
+                document.getElementById('success').style.display = 'block';
+            }
+        });
+
+        form.addEventListener('input', function (e) {
+            if (e.target.id) show(e.target.id, '');
+        });
+    </script>
+</body>
+</html>
